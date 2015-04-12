@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,8 @@ public class GameManager : MonoBehaviour
     private bool isInputPhase = false;
 
     public Transform[] Players;
-    private int playerIndex;
+    public int playerIndex;
+
     public float TimerPhaseMovement = 7.0f;
     private float timerMovePhase = 0.0f;
     private float timerPower;
@@ -32,7 +34,10 @@ public class GameManager : MonoBehaviour
         isInputPhase = true;
     }
 
-    void
+    private void GetRandomPlayer()
+    {
+     
+    }
 
     private void Update()
     {
