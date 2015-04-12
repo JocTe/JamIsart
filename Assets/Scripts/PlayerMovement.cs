@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float SpeedMovement = 5.0f;
+    public float SpeedMovement = 40.0f;
 
     private Vector3 directionMove = Vector3.zero;
 
@@ -22,7 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        directionMove = Vector3.zero;
+        //directionMove = Vector3.zero;
+		gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void Update()
@@ -34,19 +35,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") > 0.5f)
         {
-            directionMove = Vector3.right;
+            //directionMove = Vector3.right;
+			gameObject.GetComponent<Rigidbody >().velocity = Vector3.right*SpeedMovement;
         }
         else if (Input.GetAxis("Horizontal") < -0.5f)
         {
-            directionMove = Vector3.left;
+           // directionMove = Vector3.left;
+			gameObject.GetComponent<Rigidbody >().velocity = Vector3.left*SpeedMovement;
         }
         else if (Input.GetAxis("Vertical") > 0.5f)
         {
-            directionMove = Vector3.up;
+            //directionMove = Vector3.up;
+			gameObject.GetComponent<Rigidbody >().velocity = Vector3.up*SpeedMovement;
         }
         else if (Input.GetAxis("Vertical") < -0.5f)
         {
-            directionMove = Vector3.down;
+            //directionMove = Vector3.down;
+			gameObject.GetComponent<Rigidbody >().velocity = Vector3.down*SpeedMovement;
         }
     }
 
