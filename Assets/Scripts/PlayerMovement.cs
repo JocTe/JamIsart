@@ -7,9 +7,22 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 directionMove = Vector3.zero;
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Wall")
+        {
+            //directionMove = Vector3.zero;
+        }
+    }
+
     private void Start()
     {
         this.enabled = false;
+    }
+
+    private void OnDisable()
+    {
+        directionMove = Vector3.zero;
     }
 
     private void Update()
