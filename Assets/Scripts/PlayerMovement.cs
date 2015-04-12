@@ -9,9 +9,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Wall")
+        if (other.tag == "Death")
         {
-            //directionMove = Vector3.zero;
+            // Application.LoadLevel("GameOver");
         }
     }
 
@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         //directionMove = Vector3.zero;
-		gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void Update()
@@ -36,22 +36,22 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Horizontal") > 0.5f)
         {
             //directionMove = Vector3.right;
-			gameObject.GetComponent<Rigidbody >().velocity = Vector3.right*SpeedMovement;
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.right * SpeedMovement;
         }
         else if (Input.GetAxis("Horizontal") < -0.5f)
         {
-           // directionMove = Vector3.left;
-			gameObject.GetComponent<Rigidbody >().velocity = Vector3.left*SpeedMovement;
+            // directionMove = Vector3.left;
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.left * SpeedMovement;
         }
         else if (Input.GetAxis("Vertical") > 0.5f)
         {
             //directionMove = Vector3.up;
-			gameObject.GetComponent<Rigidbody >().velocity = Vector3.up*SpeedMovement;
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.up * SpeedMovement;
         }
         else if (Input.GetAxis("Vertical") < -0.5f)
         {
             //directionMove = Vector3.down;
-			gameObject.GetComponent<Rigidbody >().velocity = Vector3.down*SpeedMovement;
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.down * SpeedMovement;
         }
     }
 

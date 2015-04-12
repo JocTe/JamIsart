@@ -8,11 +8,12 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public PlayerMovement PlayerScript;
+    public UIProgressBar PowerBar;
 
     // public Slider PowerBar;
     private bool isMovePhase = false;
 
-    private bool isInputPhase = false;
+    public bool isInputPhase = false;
 
     public Transform[] Players;
     public int playerIndex;
@@ -24,14 +25,18 @@ public class GameManager : MonoBehaviour
     public int InputToSmash = 15;
     private int inputSmash = 0;
     private bool isPlayerPhase;
-
+    private float Animtimer = 0.0f;
     public GameObject AnouncePlayer;
     public GameObject AnounceSmash;
+
+    public GameObject Animation1;
+    public GameObject Animation2;
 
     private void Start()
     {
         timerMovePhase = TimerPhaseMovement;
         timerPower = TimerPhaseMovement;
+        Animation1.SetActive(true);
     }
 
     private void OnEnable()
@@ -56,16 +61,20 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Animation1.SetActive(true);
+
         if (isPlayerPhase == true)
         {
             playerIndex = GetRandomPlayer(1, 4);
-            isPlayerPhase = false;
+            PowerBar.value = 0;
             isInputPhase = true;
             isMovePhase = false;
+            isPlayerPhase = false;
         }
         if (isInputPhase == true)
         {
             InputPhase();
+
             //Debug.Log("Input " + inputSmash);
         }
         else if (isMovePhase == true)
@@ -76,13 +85,15 @@ public class GameManager : MonoBehaviour
 
     private void InputPhase()
     {
-        // PowerBar.maxValue = InputToSmash;
         PlayerScript.enabled = false;
         AnimateHUD();
+        Animation2.SetActive(true);
+        Animation1.SetActive(false);
+
         if (Input.GetButtonDown("ButtonA"))
         {
             inputSmash++;
-            //PowerBar.value = inputSmash;
+            PowerBar.value += 0.05f;
             timerPower = TimerPhaseMovement;
         }
         if (inputSmash == InputToSmash)
@@ -96,6 +107,7 @@ public class GameManager : MonoBehaviour
     private void MovePhase()
     {
         //PowerBar.maxValue = TimerPhaseMovement;
+        Animation2.SetActive(false);
 
         PlayerScript.enabled = true;
         timerMovePhase += Time.deltaTime;
@@ -110,9 +122,6 @@ public class GameManager : MonoBehaviour
 
     private void AnimateHUD()
     {
-        AnouncePlayer.SetActive(true);
-        AnounceSmash.SetActive(true);
-        //AnouncePlayer
         AnouncePlayer.GetComponent<TweenPosition>().PlayForward();
         AnounceSmash.GetComponent<TweenPosition>().PlayForward();
     }
@@ -120,6 +129,7 @@ public class GameManager : MonoBehaviour
     private void PowerBarMinus()
     {
         timerPower -= Time.deltaTime;
-        //PowerBar.value = timerPower;
+        PowerBar.numberOfSteps = 0;
+        PowerBar.value = (timerPower / 10);
     }
 }
