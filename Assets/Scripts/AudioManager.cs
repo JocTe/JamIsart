@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    AudioClip GetClip(string clipName)
+    private AudioClip GetClip(string clipName)
     {
         foreach (AudioClip lClip in AllSfxClips)
         {
@@ -66,7 +66,7 @@ public class AudioManager : MonoBehaviour
         return null;
     }
 
-    void AddClipsToList(string folder, List<AudioClip> list)
+    private void AddClipsToList(string folder, List<AudioClip> list)
     {
         var audio = Resources.LoadAll(folder, typeof(AudioClip));
 

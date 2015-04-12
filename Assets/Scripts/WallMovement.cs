@@ -1,25 +1,26 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class WallMovement : MonoBehaviour {
+public class WallMovement : MonoBehaviour
+{
+    public float movementSpeed = 4.0f;
 
-	public float movementSpeed = 4.0f;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "Scream");
+            Application.LoadLevel("GameOver");
+        }
+    }
 
-	// Use this for initialization
-	void Start () 
-	{
+    // Update is called once per frame
+    private void Update()
+    {
+        transform.Translate(Vector3.right * Time.deltaTime * movementSpeed);
+    }
 
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		transform.Translate (Vector3.right * Time.deltaTime * movementSpeed);
-
-	}
-
-	void OnTriggerEnter2D(Collider2D collider)
-	{
-
-	}
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+    }
 }

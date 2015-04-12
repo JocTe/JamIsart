@@ -28,12 +28,15 @@ public class GameManager : MonoBehaviour
     private float Animtimer = 0.0f;
     public GameObject AnouncePlayer;
     public GameObject AnounceSmash;
+    public bool isAnimate;
 
     public GameObject Animation1;
     public GameObject Animation2;
+    private float timeAnim = 0.0f;
 
     private void Start()
     {
+        isAnimate = false;
         timerMovePhase = TimerPhaseMovement;
         timerPower = TimerPhaseMovement;
         Animation1.SetActive(true);
@@ -61,8 +64,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Animation1.SetActive(true);
+        if (Animation1 != null)
+            Animation1.SetActive(true);
 
+        if (isAnimate = true)
+        {
+            AnimateHUD();
+        }
+        else
+        {
+            UndoAnimateHUD();
+        }
         if (isPlayerPhase == true)
         {
             playerIndex = GetRandomPlayer(1, 4);
@@ -85,11 +97,14 @@ public class GameManager : MonoBehaviour
 
     private void InputPhase()
     {
-        PlayerScript.enabled = false;
-        AnimateHUD();
-        Animation2.SetActive(true);
-        Animation1.SetActive(false);
+        if (PlayerScript != null)
+            PlayerScript.enabled = false;
 
+        if (Animation2 != null)
+            Animation2.SetActive(true);
+        if (Animation1 != null)
+            Animation1.SetActive(false);
+        AnimateHUD();
         if (Input.GetButtonDown("ButtonA"))
         {
             inputSmash++;
@@ -107,7 +122,8 @@ public class GameManager : MonoBehaviour
     private void MovePhase()
     {
         //PowerBar.maxValue = TimerPhaseMovement;
-        Animation2.SetActive(false);
+        if (Animation2 != null)
+            Animation2.SetActive(false);
 
         PlayerScript.enabled = true;
         timerMovePhase += Time.deltaTime;
@@ -122,8 +138,12 @@ public class GameManager : MonoBehaviour
 
     private void AnimateHUD()
     {
-        AnouncePlayer.GetComponent<TweenPosition>().PlayForward();
-        AnounceSmash.GetComponent<TweenPosition>().PlayForward();
+        //AnouncePlayer.GetComponent<Animation>().Play();
+    }
+
+    private void UndoAnimateHUD()
+    {
+        AnouncePlayer.GetComponent<Animation>().Stop();
     }
 
     private void PowerBarMinus()

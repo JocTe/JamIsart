@@ -7,11 +7,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 directionMove = Vector3.zero;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Death")
         {
-            // Application.LoadLevel("GameOver");
+            Input.GetButtonDown("ButtonA");
+            FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "Scream");
+            Application.LoadLevel("GameOver");
         }
     }
 
