@@ -16,12 +16,17 @@ public class GameManager : MonoBehaviour
 
     public Transform[] Players;
     public int playerIndex;
+    private int lastRandomNumber;
 
     public float TimerPhaseMovement = 7.0f;
     private float timerMovePhase = 0.0f;
     private float timerPower;
     public int InputToSmash = 15;
     private int inputSmash = 0;
+    private bool isPlayerPhase;
+
+    public GameObject AnouncePlayer;
+    public GameObject AnounceSmash;
 
     private void Start()
     {
@@ -31,16 +36,33 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        isInputPhase = true;
+        isPlayerPhase = true;
+        isInputPhase = false;
+        isMovePhase = false;
     }
 
-    private void GetRandomPlayer()
+    private int GetRandomPlayer(int min, int max)
     {
-     
+        int result = UnityEngine.Random.Range(min, max);
+
+        if (result == lastRandomNumber)
+        {
+            return GetRandomPlayer(min, max);
+        }
+
+        lastRandomNumber = result;
+        return result;
     }
 
     private void Update()
     {
+        if (isPlayerPhase == true)
+        {
+            playerIndex = GetRandomPlayer(1, 4);
+            isPlayerPhase = false;
+            isInputPhase = true;
+            isMovePhase = false;
+        }
         if (isInputPhase == true)
         {
             InputPhase();
@@ -56,6 +78,7 @@ public class GameManager : MonoBehaviour
     {
         // PowerBar.maxValue = InputToSmash;
         PlayerScript.enabled = false;
+        AnimateHUD();
         if (Input.GetButtonDown("ButtonA"))
         {
             inputSmash++;
@@ -83,6 +106,15 @@ public class GameManager : MonoBehaviour
             isInputPhase = true;
             inputSmash = 0;
         }
+    }
+
+    private void AnimateHUD()
+    {
+        AnouncePlayer.SetActive(true);
+        AnounceSmash.SetActive(true);
+        //AnouncePlayer
+        AnouncePlayer.GetComponent<TweenPosition>().PlayForward();
+        AnounceSmash.GetComponent<TweenPosition>().PlayForward();
     }
 
     private void PowerBarMinus()
