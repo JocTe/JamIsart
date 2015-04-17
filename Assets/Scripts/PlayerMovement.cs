@@ -4,45 +4,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float SpeedMovement = 40.0f;
-<<<<<<< HEAD
-    public int PlayerScore = 0;
-=======
-	public int PlayerScore = 0;
 
->>>>>>> origin/master
+    public int PlayerScore = 0;
+
     private Vector3 directionMove = Vector3.zero;
 
     private void Start()
     {
-<<<<<<< HEAD
         this.enabled = false;
-=======
-		if (other.tag == "Pickup1") 
-		{
-			PlayerScore+= 5;
-			Destroy(other.gameObject);
-			Debug.Log(PlayerScore);
-		}
-		if (other.tag == "Pickup2") 
-		{
-			PlayerScore+= 7;
-			Destroy(other.gameObject);
-			Debug.Log(PlayerScore);
-		}
-		if (other.tag == "Pickup3") 
-		{
-			PlayerScore+= 10;
-			Destroy(other.gameObject);
-			Debug.Log(PlayerScore);
-		}
-
-		if (other.tag == "Death")
-        {
-            Input.GetButtonDown("ButtonA");
-            FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "Scream");
-            Application.LoadLevel("GameOver");
-        }
->>>>>>> origin/master
     }
 
     private void OnTriggerEnter(Collider other)
@@ -65,6 +34,12 @@ public class PlayerMovement : MonoBehaviour
             Destroy(other.gameObject);
             Debug.Log(PlayerScore);
         }
+
+        if (other.tag == "Death")
+        {
+            FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "Scream");
+            Application.LoadLevel("GameOver");
+        }
     }
 
     private void OnDisable()
@@ -80,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ChooseDirection()
     {
-        if (Input.GetAxis("Horizontal") > 0.5f)
+        if (Input.GetAxis("Horizontal") > 0.5f || Input.GetKeyDown(KeyCode.RightArrow))
         {
             //directionMove = Vector3.right;
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.right * SpeedMovement;
@@ -101,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.down * SpeedMovement;
         }
     }
-
 
     private void Move()
     {
