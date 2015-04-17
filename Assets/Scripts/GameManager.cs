@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
             Animation1.SetActive(false);
         AnimateHUD();
         Smash.SetActive(true);
-        if (Input.GetButtonDown("ButtonA"))
+        if (Input.GetButtonDown("ButtonA") || Input.GetKeyDown(KeyCode.K))
         {
             ButtonAExplo.SetActive(true);
             ButtonA.SetActive(false);

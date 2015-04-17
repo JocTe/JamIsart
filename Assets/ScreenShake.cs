@@ -3,48 +3,40 @@ using UnityEngine;
 
 public class ScreenShake : MonoBehaviour
 {
-    private Vector3 originalCameraPosition;
-
-    private float shakeAmt = 0;
-
-    public Camera mainCamera;
-    private bool shake;
-    private float timer = 0.0f;
+    public float duration;
+    public float magnitude;
+    public Camera cam;
 
     private void Update()
     {
-        if (Input.GetButtonDown("ButtonA"))
-        {
-            shakeAmt = Random.Range(0.1f, 3.0f);
-            shake = true;
-        }
-        if (shake)
-        {
-            InvokeRepeating("CameraShake", 0, .01f);
-            Invoke("StopShaking", 0.13f);
-        }
-        timer += Time.deltaTime;
-        if (timer > 0.2f)
-        {
-            shake = false;
-            timer = 0.0f;
-        }
+        if (Input.GetKeyDown(KeyCode.K))
+            StartCoroutine(Shake());
     }
 
-    private void CameraShake()
+    private IEnumerator Shake()
     {
-        if (shakeAmt > 0)
-        {
-            float quakeAmt = Random.value * shakeAmt * 2 - shakeAmt;
-            Vector3 pp = mainCamera.transform.position;
-            pp.y += quakeAmt; // can also add to x and/or z
-            mainCamera.transform.position = pp;
-        }
-    }
+        float elapsed = 0.0f;
 
-    private void StopShaking()
-    {
-        CancelInvoke("CameraShake");
-        mainCamera.transform.position = originalCameraPosition;
+        Vector3 originalCamPos = cam.transform.position;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float percentComplete = elapsed / duration;
+            float damper = 1.0f - Mathf.Clamp(4.0f * percentComplete - 3.0f, 0.0f, 1.0f);
+
+            // map value to [-1, 1]
+            float x = Random.value * 2.0f - 1.0f;
+            float y = Random.value * 2.0f - 1.0f;
+            x *= magnitude * damper;
+            y *= magnitude * damper;
+
+            Camera.main.transform.position = new Vector3(x + originalCamPos.x, y + originalCamPos.y, originalCamPos.z);
+
+            yield return null;
+        }
+
+        Camera.main.transform.position = originalCamPos;
     }
 }
