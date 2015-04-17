@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class ManageMainMenu : MonoBehaviour
 {
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetButtonDown("ButtonA"))
         {

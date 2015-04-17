@@ -4,22 +4,34 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float SpeedMovement = 40.0f;
-
+    public int PlayerScore = 0;
     private Vector3 directionMove = Vector3.zero;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Death")
-        {
-            Input.GetButtonDown("ButtonA");
-            FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "Scream");
-            Application.LoadLevel("GameOver");
-        }
-    }
 
     private void Start()
     {
         this.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Pickup1")
+        {
+            PlayerScore += 5;
+            Destroy(other.gameObject);
+            Debug.Log(PlayerScore);
+        }
+        if (other.tag == "Pickup2")
+        {
+            PlayerScore += 7;
+            Destroy(other.gameObject);
+            Debug.Log(PlayerScore);
+        }
+        if (other.tag == "Pickup3")
+        {
+            PlayerScore += 10;
+            Destroy(other.gameObject);
+            Debug.Log(PlayerScore);
+        }
     }
 
     private void OnDisable()

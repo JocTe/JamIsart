@@ -5,11 +5,11 @@ public class WallMovement : MonoBehaviour
 {
     public float movementSpeed = 4.0f;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "Scream");
+            Debug.Log("Game");
             Application.LoadLevel("GameOver");
         }
     }
@@ -17,7 +17,7 @@ public class WallMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        transform.Translate(Vector3.right * Time.deltaTime * movementSpeed);
+        transform.Translate(Vector3.right * movementSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

@@ -34,8 +34,18 @@ public class GameManager : MonoBehaviour
     public GameObject Animation2;
     private float timeAnim = 0.0f;
 
+    public GameObject Bandeau1;
+    public GameObject Bandeau2;
+    public GameObject Bandeau3;
+    public GameObject Bandeau4;
+    public GameObject Smash;
+
+    public GameObject ButtonA;
+    public GameObject ButtonAExplo;
+
     private void Start()
     {
+        ButtonA.SetActive(true);
         isAnimate = false;
         timerMovePhase = TimerPhaseMovement;
         timerPower = TimerPhaseMovement;
@@ -64,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        ButtonA.SetActive(true);
         if (Animation1 != null)
             Animation1.SetActive(true);
 
@@ -78,6 +89,42 @@ public class GameManager : MonoBehaviour
         if (isPlayerPhase == true)
         {
             playerIndex = GetRandomPlayer(1, 4);
+            if (playerIndex == 1)
+            {
+                FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "VieuxJoueur1");
+                Bandeau1.SetActive(true);
+                Bandeau2.SetActive(false);
+                Bandeau3.SetActive(false);
+                Bandeau4.SetActive(false);
+                Smash.SetActive(false);
+            }
+            else if (playerIndex == 2)
+            {
+                FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "VieuxJoueur2");
+                Bandeau1.SetActive(false);
+                Bandeau2.SetActive(true);
+                Bandeau3.SetActive(false);
+                Bandeau4.SetActive(false);
+                Smash.SetActive(false);
+            }
+            else if (playerIndex == 3)
+            {
+                FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "VieuxJoueur3");
+                Bandeau1.SetActive(false);
+                Bandeau2.SetActive(false);
+                Bandeau3.SetActive(true);
+                Bandeau4.SetActive(false);
+                Smash.SetActive(false);
+            }
+            else if (playerIndex == 4)
+            {
+                FindObjectOfType<AudioManager>().PlaySfx(this.gameObject, "VieuxJoueur4");
+                Bandeau1.SetActive(false);
+                Bandeau2.SetActive(false);
+                Bandeau3.SetActive(false);
+                Bandeau4.SetActive(true);
+                Smash.SetActive(false);
+            }
             PowerBar.value = 0;
             isInputPhase = true;
             isMovePhase = false;
@@ -105,11 +152,19 @@ public class GameManager : MonoBehaviour
         if (Animation1 != null)
             Animation1.SetActive(false);
         AnimateHUD();
+        Smash.SetActive(true);
         if (Input.GetButtonDown("ButtonA"))
         {
+            ButtonAExplo.SetActive(true);
+            ButtonA.SetActive(false);
             inputSmash++;
             PowerBar.value += 0.05f;
             timerPower = TimerPhaseMovement;
+        }
+        if (Input.GetButtonUp("ButtonA"))
+        {
+            ButtonA.SetActive(true);
+            ButtonAExplo.SetActive(false);
         }
         if (inputSmash == InputToSmash)
         {
@@ -121,6 +176,13 @@ public class GameManager : MonoBehaviour
 
     private void MovePhase()
     {
+        ButtonAExplo.SetActive(false);
+        ButtonA.SetActive(false);
+        Bandeau1.SetActive(false);
+        Bandeau2.SetActive(false);
+        Bandeau3.SetActive(false);
+        Bandeau4.SetActive(false);
+        Smash.SetActive(false);
         //PowerBar.maxValue = TimerPhaseMovement;
         if (Animation2 != null)
             Animation2.SetActive(false);
@@ -131,7 +193,8 @@ public class GameManager : MonoBehaviour
         if (timerMovePhase >= TimerPhaseMovement)
         {
             isMovePhase = false;
-            isInputPhase = true;
+            isInputPhase = false;
+            isPlayerPhase = true;
             inputSmash = 0;
         }
     }
